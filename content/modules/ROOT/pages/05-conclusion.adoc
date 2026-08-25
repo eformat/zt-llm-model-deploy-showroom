@@ -1,0 +1,35 @@
+= Conclusion
+:navtitle: Conclusion
+:icons: font
+
+Congratulations! You took a large language model all the way from _discovery_ to a _running, authenticated endpoint_ on Red Hat OpenShift AI -- and consumed it both programmatically and interactively.
+
+== What you accomplished
+
+* **Module 1 -- Discover & benchmark:** filtered the AI hub catalog to Red Hat AI validated models, benchmarked candidates by TTFT latency under a chatbot workload and hardware constraint, and selected `{model_name}`.
+* **Module 2 -- Deploy & verify:** deployed the model through the four-step wizard with KServe and the vLLM NVIDIA GPU ServingRuntime on the `{hardware_profile}` GPU profile, then confirmed it reached `Ready` and captured its endpoints and bearer token.
+* **Module 3 -- Consume:** called the token-authenticated REST endpoint with `curl`, then chatted with the model in the Gen AI studio Playground and interpreted its inference metrics.
+
+== The end-to-end flow
+
+You connected three surfaces that newcomers usually meet in isolation:
+
+. **Model selection** driven by benchmark data, not guesswork.
+. **GPU-backed serving** with KServe/vLLM, external route, and token auth.
+. **Consumption** over an OpenAI-compatible API and an interactive Playground.
+
+The same InferenceService now backs both an application integration and a chat experience -- a foundation you can extend to your own models and workloads.
+
+== Where to go next
+
+* Point your own OpenAI-compatible client code at the endpoint by swapping the base URL and token.
+* Explore other Red Hat AI validated models and re-run the benchmark comparison for a different workload.
+* Learn more about KServe single-model serving, vLLM runtime tuning, and hardware profiles in the RHOAI documentation.
+
+== Resources
+
+* Red Hat OpenShift AI documentation: https://docs.redhat.com/en/documentation/red_hat_openshift_ai
+* KServe: https://kserve.github.io/website/
+* vLLM: https://docs.vllm.ai
+
+Thank you for completing the workshop!

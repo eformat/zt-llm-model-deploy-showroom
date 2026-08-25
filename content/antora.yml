@@ -1,0 +1,28 @@
+name: modules
+title: "Deploy and Chat with an LLM on Red Hat OpenShift AI"
+version: ~
+nav:
+  - modules/ROOT/nav.adoc
+
+asciidoc:
+  attributes:
+    source-highlighter: highlight.js
+    experimental: true
+    page-pagination: true
+    showroom-collection-version: v1.5.6
+    lab_name: "Deploy and Chat with an LLM on RHOAI"
+    guid: abc123
+    user: user1
+    password: "%password%"
+    openshift_api_url: "https://api.cluster.example.com:6443"
+    openshift_console_url: https://console-openshift-console.apps.cluster.example.com
+    openshift_cluster_ingress_domain: apps.cluster.example.com
+    rhoai_dashboard_url: https://rh-ai.apps.cluster.example.com
+    project_name: demo
+    model_name: "RedHatAI/gpt-oss-20b"
+    model_resource_name: redhataigpt-oss-20b
+    model_source_uri: "oci://registry.redhat.io/rhelai1/modelcar-gpt-oss-20b:1.5"
+    serving_runtime: "vLLM NVIDIA GPU ServingRuntime for KServe"
+    hardware_profile: "35GB Slice"
+    runtime_args: "--tensor-parallel-size 1 --max-model-len 32768 --enforce-eager"
+    use_case: chat

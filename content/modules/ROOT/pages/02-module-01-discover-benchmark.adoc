@@ -1,0 +1,96 @@
+= Module 1: Discover and Benchmark a Validated Model
+:navtitle: Module 1: Discover & Benchmark
+:toc: macro
+:toclevels: 1
+:icons: font
+
+Before you serve a large language model, you have to choose the _right_ one for your workload and your hardware budget. In this module you'll use the RHOAI **AI hub** catalog and its **model performance** view to compare Red Hat AI validated models by latency under a chatbot workload -- and use that comparison to select `{model_name}`.
+
+== Learning objectives
+
+By the end of this module, you'll be able to:
+
+* Browse the AI hub catalog and filter to Red Hat AI validated models
+* Configure the model performance view with a workload scenario and hardware constraint
+* Compare candidate models by time-to-first-token (TTFT) latency
+* Read a model card and explain why benchmark latency and hardware footprint together drive model selection
+
+== Exercise 1: Browse the validated model catalog
+
+. In the RHOAI dashboard left sidebar, expand **AI hub** and click **Catalog**.
++
+image::04-ai-hub-catalog.png[AI hub catalog,link=self,window=blank,width=700]
+
+. Filter the catalog to **Red Hat AI validated models**. These are models Red Hat has tested and packaged for serving on the platform.
++
+NOTE: The exact set of catalog models depends on your RHOAI release, so the list you see may differ from the screenshots.
+
+=== Verify
+
+* The catalog shows a set of Red Hat AI validated models
+* Each model tile shows its provider and key attributes
+
+== Exercise 2: Benchmark models against a chatbot workload
+
+The model performance view estimates serving latency for a given _workload scenario_ and _hardware constraint_, so you can compare candidates on an apples-to-apples basis.
+
+. Enable the **model performance** view in the catalog.
+
+. Configure the workload constraints:
++
+* **Scenario:** Chatbot (512 tokens in / 256 tokens out)
+* **Latency target:** a TTFT P90 target
+* **Max RPS:** the maximum requests-per-second target
++
+image::05-performance-workload.png[Workload configuration,link=self,window=blank,width=700]
+
+. Apply a **hardware constraint** -- for example `L4 x1` (a single NVIDIA L4 GPU).
++
+The candidate models re-sort by TTFT latency under that hardware.
++
+image::06-performance-sorted.png[Models sorted by TTFT,link=self,window=blank,width=700]
+
+. Compare **at least three** validated models by their reported TTFT latency. Note how a larger model may deliver better quality but a higher latency or a larger hardware footprint.
+
+. Identify `{model_name}` among the results.
+
+=== Verify
+
+* The catalog shows a latency-sorted result set under your applied hardware constraint
+* You can state the TTFT latency reported for `{model_name}` and at least one other model, and articulate the trade-off between latency, quality, and hardware footprint
+
+== Exercise 3: Review the model card
+
+. Open the `{model_name}` model card.
++
+image::07-model-card.png[gpt-oss-20b model card,link=self,window=blank,width=700]
+
+. Review its key attributes:
++
+* **Provider:** OpenAI
+* **Parameters:** ~21.5B
+* **Tensor type:** MXFP4
+* **License:** Apache 2.0
+
+. Confirm the **Deploy model** action is visible on the card -- you'll use it in Module 2.
+
+=== Verify
+
+* You reached the `{model_name}` model card
+* The **Deploy model** action is visible
+
+== Module summary
+
+**What you accomplished:**
+
+* Filtered the AI hub catalog to Red Hat AI validated models
+* Benchmarked candidates against a chatbot workload and a hardware constraint, sorted by TTFT latency
+* Selected `{model_name}` and reviewed its model card
+
+**Key takeaways:**
+
+* The AI hub catalog and model performance view let you make a _data-driven_ model choice instead of guessing
+* TTFT latency and hardware footprint together determine whether a model fits a chatbot workload on your available GPUs
+* Red Hat AI validated models are pre-tested for serving on RHOAI, which reduces deployment risk
+
+**Next:** Module 2 will deploy `{model_name}` with KServe and vLLM, then verify it becomes healthy.

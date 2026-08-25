@@ -1,0 +1,6 @@
+* xref:index.adoc[Welcome]
+* xref:getting-connected.adoc[Getting Connected]
+* xref:02-module-01-discover-benchmark.adoc[Module 1: Discover & Benchmark]
+* xref:03-module-02-deploy-verify.adoc[Module 2: Deploy & Verify]
+* xref:04-module-03-consume-rest-playground.adoc[Module 3: Consume the Model]
+* xref:05-conclusion.adoc[Conclusion]

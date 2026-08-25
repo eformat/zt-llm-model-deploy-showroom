@@ -1,0 +1,157 @@
+= Module 2: Deploy and Verify the Model with KServe and vLLM
+:navtitle: Module 2: Deploy & Verify
+:toc: macro
+:toclevels: 1
+:icons: font
+
+Selecting a model is only useful once it's _served_. In this module you'll run the four-step **Deploy-a-model** wizard to turn your catalog selection into a running KServe `InferenceService` backed by the vLLM ServingRuntime on GPU hardware -- then confirm it becomes healthy and capture the endpoints and token you'll consume in Module 3.
+
+== Learning objectives
+
+By the end of this module, you'll be able to:
+
+* Complete the four-step Deploy-a-model wizard for a KServe/vLLM deployment
+* Select a GPU/MIG hardware profile and the vLLM NVIDIA GPU ServingRuntime
+* Enable an external route, token authentication, and custom vLLM runtime arguments
+* Verify the deployment reaches `Ready` and retrieve its endpoints and bearer token
+
+== Exercise 1: Start the Deploy-a-model wizard
+
+. From the `{model_name}` model card (or from **Models › Deployments** in your project), click **Deploy model**.
++
+image::08-deploy-model-start.png[Deploy model wizard,link=self,window=blank,width=700]
+
+=== Step 1 -- Model details
+
+. Confirm the prefilled model source is the OCI modelcar image:
++
+[subs="attributes"]
+----
+{model_source_uri}
+----
+
+. Confirm the model type is **Generative AI model (LLM)**.
+
+. Click **Next**.
+
+=== Verify
+
+* The source URI matches the `{model_name}` modelcar image
+* The model type is set to Generative AI model (LLM)
+
+== Exercise 2: Configure model deployment
+
+=== Step 2 -- Model deployment
+
+. Enter a **deployment name** (for example, `{model_resource_name}`).
+
+. Select your assigned project, `{project_name}`.
++
+IMPORTANT: The hardware profile list only populates _after_ you select a project. If you see "No enabled or valid hardware profiles," go back and select your project first.
+
+. Select the preconfigured GPU/MIG **hardware profile**: `{hardware_profile}` (~35 GB slice).
+
+. Select the serving runtime: **{serving_runtime}**.
+
+. Set the number of **replicas** to `1`.
++
+image::09-deploy-hardware-runtime.png[Hardware profile and runtime,link=self,window=blank,width=700]
+
+. Click **Next**.
+
+=== Verify
+
+* Your project is selected and the `{hardware_profile}` profile is selectable
+* The vLLM NVIDIA GPU ServingRuntime is selected with 1 replica
+
+== Exercise 3: Configure advanced settings
+
+=== Step 3 -- Advanced settings
+
+. Publish the model as an **AI asset endpoint** and set the use case to `{use_case}`.
+
+. Enable an **external route** so the model is reachable from outside the cluster.
+
+. Enable **token authentication** so calls require a bearer token.
++
+image::10-deploy-advanced.png[Advanced settings,link=self,window=blank,width=700]
+
+. Add the custom **vLLM runtime arguments**:
++
+[subs="attributes"]
+----
+{runtime_args}
+----
++
+These pin tensor parallelism, the maximum model (context) length, and eager execution for this model on the assigned GPU slice.
+
+. Click **Next**.
+
+=== Verify
+
+* The model is published as an AI asset endpoint with use case `{use_case}`
+* External route and token authentication are both enabled
+* The custom runtime arguments are present
+
+== Exercise 4: Review and submit
+
+=== Step 4 -- Review
+
+. Review the summary of all settings.
+
+. Click **Deploy** (or **Submit**) to create the deployment.
++
+image::11-deploy-review.png[Review and submit,link=self,window=blank,width=700]
+
+=== Verify
+
+* The wizard closes and the new deployment appears in **Models › Deployments**
+
+== Exercise 5: Verify the deployment is Ready
+
+Deploying pulls the model image and starts the vLLM server, so the deployment takes a few minutes to become healthy.
+
+. Open **Models › Deployments** in your project.
+
+. Watch the status transition from `Starting` to `Ready`.
++
+image::12-deployment-ready.png[Deployment Ready,link=self,window=blank,width=700]
+
+. Open the deployment's **endpoints** popover and copy both the **internal** and **external** inference endpoint URLs. You'll use the external endpoint in Module 3.
++
+image::13-deployment-endpoints.png[Deployment endpoints,link=self,window=blank,width=700]
+
+. Reveal and copy the **bearer (JWT) authentication token** associated with the deployment. Keep it handy -- Module 3's REST call needs it.
++
+image::14-deployment-token.png[Deployment token,link=self,window=blank,width=700]
+
+. (Optional) Verify from the CLI that the InferenceService is ready:
++
+[source,bash,role="execute",subs="attributes"]
+----
+oc get inferenceservice -n {project_name}
+----
++
+The `{model_resource_name}` InferenceService should report `READY=True`.
+
+=== Verify
+
+* The Deployments view shows the model with status `Ready` and an internal/external endpoint
+* `oc get inferenceservice` reports a `READY` condition of `True`
+* You have captured the external endpoint URL and a valid bearer token
+
+== Module summary
+
+**What you accomplished:**
+
+* Deployed `{model_name}` through the four-step wizard using KServe and the vLLM NVIDIA GPU ServingRuntime
+* Placed the model on the `{hardware_profile}` GPU profile with custom vLLM runtime arguments
+* Confirmed the deployment reached `Ready` and captured its endpoints and bearer token
+
+**Key takeaways:**
+
+* KServe single-model serving + vLLM turns a catalog model into an OpenAI-compatible inference service on GPU hardware
+* Hardware profiles only appear after a project is selected -- order matters in the wizard
+* Token authentication and an external route are what make the endpoint safely consumable from outside the cluster
+
+**Next:** Module 3 will call this endpoint over REST and chat with the model in the Playground.

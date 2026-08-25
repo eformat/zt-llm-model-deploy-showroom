@@ -1,0 +1,106 @@
+= Module 3: Consume the Model via REST API and the Playground
+:navtitle: Module 3: Consume the Model
+:toc: macro
+:toclevels: 1
+:icons: font
+
+A running, authenticated endpoint is only valuable once you can actually _call_ it. In this module you'll consume `{model_name}` two ways: first programmatically, with a `curl` request against its OpenAI-compatible REST API using the token from Module 2 -- the developer integration path -- then interactively in the Gen AI studio **Playground**, where you can chat and read live performance metrics.
+
+== Learning objectives
+
+By the end of this module, you'll be able to:
+
+* Call the external, token-authenticated inference endpoint over its OpenAI-compatible REST API
+* Add the deployed model to a Gen AI studio Playground and chat with it
+* Interpret the Playground's inference metrics and relate them to the catalog benchmark from Module 1
+
+== Exercise 1: Call the model over REST
+
+The vLLM runtime exposes an OpenAI-compatible API. You'll POST a chat completion request to the external endpoint, authenticating with the bearer token you copied in Module 2.
+
+. In a terminal, set two variables -- paste the **external endpoint URL** and the **bearer token** from Module 2:
++
+[source,bash,role="execute"]
+----
+export ENDPOINT="<paste-your-external-endpoint-url>"
+export TOKEN="<paste-your-bearer-token>"
+----
+
+. Send a chat completion request to the OpenAI-compatible `/v1/chat/completions` path:
++
+[source,bash,role="execute",subs="attributes"]
+----
+curl -sk "$ENDPOINT/v1/chat/completions" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "{model_resource_name}",
+    "messages": [
+      {"role": "user", "content": "In one sentence, what is Red Hat OpenShift AI?"}
+    ],
+    "max_tokens": 128
+  }'
+----
++
+NOTE: If you receive a `401`, your token may have expired during the lab -- re-copy it from the deployment's token popover (Module 2) and retry. If a long generation times out, lower `max_tokens` or shorten the prompt.
+
+. Inspect the JSON response. The model's answer is in `choices[0].message.content`.
+
+=== Verify
+
+* The `curl` request returns HTTP 200 with a JSON body
+* The response contains a non-empty completion in `choices[0].message.content`
+
+== Exercise 2: Add the model to a Playground
+
+. In the RHOAI dashboard sidebar, expand **Gen AI studio** and click **AI asset endpoints**.
+
+. Select your project, `{project_name}`, and locate the deployed `{model_resource_name}` endpoint. Confirm its use case is `{use_case}` and its status is **Ready**.
++
+image::15-ai-asset-endpoints.png[AI asset endpoints,link=self,window=blank,width=700]
+
+. Add the model to a **Playground** and open the Playground chat UI.
++
+image::16-playground-open.png[Playground chat UI,link=self,window=blank,width=700]
+
+=== Verify
+
+* The `{model_resource_name}` endpoint is listed with use case `{use_case}` and status Ready
+* The Playground chat UI is open with the model selected
+
+== Exercise 3: Chat and read the metrics
+
+. In the Playground, type a prompt and send it -- for example:
++
+----
+Explain time-to-first-token latency to a newcomer, in two sentences.
+----
+
+. Watch the response **stream** back token by token.
++
+image::17-playground-response.png[Streamed Playground response,link=self,window=blank,width=700]
+
+. Review the reported inference **metrics** for the response -- total latency, token count, and time-to-first-token (TTFT). Relate the TTFT you observe here to the benchmark you compared in Module 1.
+
+. (Optional) Adjust a sampling parameter such as **temperature** and send the prompt again. Observe how a higher temperature produces more varied output.
+
+=== Verify
+
+* The Playground streams a coherent answer to your prompt
+* You can read the TTFT / latency / token metrics and connect them to the Module 1 benchmark concept
+
+== Module summary
+
+**What you accomplished:**
+
+* Called `{model_name}` over its OpenAI-compatible REST API with a bearer token and received a completion
+* Added the model to a Gen AI studio Playground and chatted with it interactively
+* Interpreted the Playground's inference metrics and related TTFT back to the catalog benchmark
+
+**Key takeaways:**
+
+* The same deployment serves both an application (REST/curl) and an interactive user (Playground) -- one endpoint, two consumption paths
+* The OpenAI-compatible API means existing OpenAI client code works against your self-hosted model by changing the base URL and token
+* Live inference metrics close the loop with the benchmarking you did before deploying
+
+**Next:** wrap up in the Conclusion.

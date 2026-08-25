@@ -1,0 +1,47 @@
+= {lab_name}
+
+Welcome! In this hands-on workshop you'll take a large language model from _discovery_ to a _running, authenticated inference endpoint_ on Red Hat OpenShift AI (RHOAI) -- and then call it two ways: over its REST API and interactively in a chat Playground.
+
+You'll work with the OpenAI `gpt-oss-20b` validated model, served with KServe single-model serving and the vLLM NVIDIA GPU ServingRuntime on a GPU-backed project.
+
+== What you'll learn
+
+In this workshop, you will:
+
+* **Discover & benchmark a model** -- use the AI hub catalog and its model performance view to compare Red Hat AI validated models by time-to-first-token (TTFT) latency under a chatbot workload and hardware constraint
+* **Deploy & verify** -- run the four-step Deploy-a-model wizard to serve `gpt-oss-20b` with KServe/vLLM on a GPU profile, then confirm it reaches `Ready` and capture its endpoints and token
+* **Consume the model** -- call the token-authenticated REST endpoint with `curl`, then add the model to a Gen AI studio Playground for an interactive, streamed chat with visible performance metrics
+
+== Understanding and navigating the workshop UI
+
+The workshop interface lets you read instructions while working in your environment.
+
+**Left panel**: Workshop instructions and content
+
+**Right panel**: Embedded environment for hands-on exercises
+
+**View modes** (top navigation):
+
+* **Instructions**: Full-page instructions (hide environment tabs)
+* **Split**: Side-by-side view (current default) -- see both instructions and environment
+* **Tabs**: Full-page environment (hide instructions)
+
+**Adjusting the layout**: In Split mode, drag the middle divider left or right to resize the panels.
+
+== Who this is for
+
+This workshop is designed for AI/ML engineers, platform engineers, and application developers who are new to serving LLMs on Red Hat OpenShift AI and want a guided, end-to-end path from model selection to consumption.
+
+**Experience level**: Beginner to intermediate
+
+**Estimated time**: 60-75 minutes
+
+**Prerequisites**:
+
+* Basic OpenShift familiarity (projects, routes, the web console)
+* Comfort running commands in a terminal (for the REST exercise)
+* An assigned project with a GPU/MIG hardware profile already enabled -- the lab environment provisions this for you
+
+== Let's get started!
+
+Click **Getting Connected** in the navigation to log in and confirm your environment is ready.

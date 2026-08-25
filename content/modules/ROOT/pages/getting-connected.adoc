@@ -1,0 +1,50 @@
+= Getting Connected
+
+In this activity, you will connect to the OpenShift console, open the Red Hat OpenShift AI dashboard, and confirm your assigned project is ready for the workshop.
+
+== Login to OpenShift
+
+. Open the OpenShift console in your browser:
++
+{openshift_console_url}
+
+. Log in with the following credentials:
++
+**Username:** `{user}`
++
+**Password:** `{password}`
++
+image::01-keycloak-login.png[Login page,link=self,window=blank,width=700]
+
+. Once logged in, you should see the OpenShift console Projects page.
+
+== Open the RHOAI dashboard
+
+. In the top navigation bar, click the grid icon (application launcher).
+
+. In the dropdown, under **OpenShift Self Managed Services**, click **Red Hat OpenShift AI**.
++
+The RHOAI dashboard opens in a new browser tab. It may take a few seconds to load.
++
+image::02-rhoai-dashboard-home.png[RHOAI Dashboard Home,link=self,window=blank,width=700]
+
+== Confirm your assigned project
+
+Your lab environment comes with a data science project that already has a GPU/MIG hardware profile enabled. You'll deploy the model into this project in Module 2.
+
+. In the left sidebar, click **Projects**.
+
+. Confirm you can see your assigned project, `{project_name}`, in the list.
++
+image::03-projects-list.png[Projects list,link=self,window=blank,width=700]
+
+You can also verify from the command line:
+
+[source,bash,role="execute",subs="attributes"]
+----
+oc get project {project_name}
+----
+
+== End of activity
+
+You are logged in, the RHOAI dashboard is open, and your GPU-backed project is ready. Continue to **Module 1** to discover and benchmark a model.
